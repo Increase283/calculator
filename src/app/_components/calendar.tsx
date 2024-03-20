@@ -12,12 +12,12 @@ export const Calendar = () => {
   const startDay = new Date(currentYear, currentMonth, 1).getDay();
   
   const monthName = months[currentMonth];
-    return  <div className="min-h-screen flex justify-center items-center ">
-    <div className="bg-blue-200 p-8 shadow-md rounded-lg text-black">
+    return  <div className="flex justify-center items-center flex-grow ">
+    <div className="bg-muted/50 p-8 shadow-md rounded-lg ">
       <h1 className="text-3xl font-semibold mb-4">{monthName} {currentYear}</h1>
       <div className="grid grid-cols-7 gap-2">
         {days.map(day => (
-          <div key={day} className="text-center font-semibold text-gray-700">{day}</div>
+          <div key={day} className="text-center font-semibold text-muted-foreground">{day}</div>
         ))}
       </div>
       <div className="grid grid-cols-7 gap-2 mt-2">
@@ -25,7 +25,7 @@ export const Calendar = () => {
           <div key={index}></div>
         ))}
         {[...Array(daysInMonth).keys()].map((day) => (
-          <div key={day + startDay} className="text-center py-2 border border-blue-900 rounded">
+          <div key={day + startDay} className="text-center py-2 bg-muted rounded">
             {day + 1}
           </div>
         ))}

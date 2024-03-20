@@ -1,14 +1,17 @@
 import "@/styles/globals.css";
 
 import { ClerkProvider } from '@clerk/nextjs'
-import { Inter } from "next/font/google";
+import { Inter as FontSans } from "next/font/google"
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "next-themes";
 
-const inter = Inter({
+ 
+const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
-});
+})
 
 export const metadata = {
   title: "Create T3 App",
@@ -24,8 +27,19 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`font-sans ${inter.variable}`}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+        <body className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}>
+          <TRPCReactProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >{children}
+          </ThemeProvider>
+          </TRPCReactProvider>
         </body>
       </html>
     </ClerkProvider>
