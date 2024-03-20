@@ -35,7 +35,8 @@ const formSchema = z.object({
 })
 
 export const CalendarDay = ({day}: { day: number }) => {
-    const {mutate:createEvent} = api.event.create.useMutation()
+    const {data: events, isError} = api.event.getByDate.useQuery({date: new Date(`2024-03-${day}`)})
+    const {mutate:createEvent, isPending} = api.event.create.useMutation()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -46,6 +47,7 @@ export const CalendarDay = ({day}: { day: number }) => {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         createEvent(values)
+        form.reset()
     }
 
     return <Dialog>
@@ -59,10 +61,18 @@ export const CalendarDay = ({day}: { day: number }) => {
                 <Form {...form}>
                     <DialogHeader>
                         <DialogTitle>Add event</DialogTitle>
-                        <DialogDescription>
-                            Here will be some events
-                        </DialogDescription>
                     </DialogHeader>
+                    <div className="font-bold">Events:</div>
+                    <div>
+                        {isPending && <div>Loading...</div>}
+                        {isError ? <div>Error</div>
+                        :<div>
+                            {events?.map((event) => (
+                                <div key={event.id}>{event.name}</div>
+                            ))}
+                        </div>
+                        }
+                    </div>
                     <FormField
                         control={form.control}
                         name="name"
@@ -82,9 +92,7 @@ export const CalendarDay = ({day}: { day: number }) => {
                                 Close
                             </Button>
                         </DialogClose>
-                        <DialogClose asChild>
-                            <Button type="submit">Submit</Button>
-                        </DialogClose>
+                        <Button type="submit">Submit</Button>
                     </DialogFooter>
                 </Form>
 
