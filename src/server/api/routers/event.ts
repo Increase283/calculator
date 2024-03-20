@@ -34,5 +34,17 @@ export const eventRouter = createTRPCRouter({
                     userId
                 }
             })
+        }),
+    delete: publicProcedure
+        .input(z.object({id: z.string()}))
+        .mutation(async ({ctx, input}) => {
+            const {userId} = auth()
+            if (!userId) throw new TRPCError({code: "UNAUTHORIZED"})
+
+            return await ctx.db.event.delete({
+                where:{
+                    id: input.id
+                }
+            })
         })
 });

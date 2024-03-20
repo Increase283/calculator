@@ -28,6 +28,8 @@ import {Input} from "@/app/_components/ui/input"
 import {api} from "@/trpc/react";
 import { Skeleton } from "./ui/skeleton"
 
+import {Event} from "./event"
+
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -69,9 +71,9 @@ export const CalendarDay = ({day}: { day: number }) => {
                     </DialogHeader>
                     <div>
                         {isError ? <div>Error</div>
-                        :<div>
+                        :<div className=" divide-y">
                             {events?.map((event) => (
-                                <div key={event.id} className="text-wrap">{event.name}</div>
+                                <Event key={event.id} event={event}/>
                             ))}
                         </div>
                         }
