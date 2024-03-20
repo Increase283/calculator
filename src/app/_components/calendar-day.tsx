@@ -29,6 +29,7 @@ import {api} from "@/trpc/react";
 import { Skeleton } from "./ui/skeleton"
 
 import {Event} from "./event"
+import { useState } from "react"
 
 
 const formSchema = z.object({
@@ -38,7 +39,8 @@ const formSchema = z.object({
 
 export const CalendarDay = ({day}: { day: number }) => {
     const utils = api.useUtils()
-    const {data: events, isError, isFetching} = api.event.getByDate.useQuery({date: new Date(`2024-03-${day}`)})
+    const [isCreatingEvent, setIsCreatingEvent] = useState(false)
+    const {data: events, isError} = api.event.getByDate.useQuery({date: new Date(`2024-03-${day}`)})
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -46,14 +48,16 @@ export const CalendarDay = ({day}: { day: number }) => {
             date: new Date(`2024-03-${day}`)
         },
     })
-    const {mutate:createEvent} = api.event.create.useMutation({
+    const {mutate: createEvent} = api.event.create.useMutation({
         onSuccess: async () => {
             form.reset()
             await utils.event.getByDate.refetch({date: new Date(`2024-03-${day}`)})
+            setIsCreatingEvent(false)
         }
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        setIsCreatingEvent(true)
         createEvent(values)
     }
 
@@ -70,6 +74,7 @@ export const CalendarDay = ({day}: { day: number }) => {
                         <DialogTitle>Events:</DialogTitle>
                     </DialogHeader>
                     <div>
+                        {!events?.length && <div className="text-center">There are no events yet.</div>}
                         {isError ? <div>Error</div>
                         :<div className=" divide-y">
                             {events?.map((event) => (
@@ -77,7 +82,7 @@ export const CalendarDay = ({day}: { day: number }) => {
                             ))}
                         </div>
                         }
-                        { isFetching && <Skeleton className="w-[100px] h-[20px] rounded-full" />}
+                        { isCreatingEvent && <Skeleton className="w-[100px] h-[20px] rounded-full" />}
 
                     </div>
                     <FormField
