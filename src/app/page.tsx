@@ -1,5 +1,9 @@
+import { Calendar } from "./_components/calendar";
+
 export default async function Home() {
   return (
-   <div>losos</div>
+    <main className="bg-blue-900 min-h-screen text-white">
+      <Calendar/>
+   </main>
   );
 }
