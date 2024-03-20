@@ -4,7 +4,6 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -27,16 +26,17 @@ import {
 } from "@/app/_components/ui/form"
 import {Input} from "@/app/_components/ui/input"
 import {api} from "@/trpc/react";
+import { Skeleton } from "./ui/skeleton"
 
 
 const formSchema = z.object({
-    name: z.string(),
+    name: z.string().min(1),
     date: z.date()
 })
 
 export const CalendarDay = ({day}: { day: number }) => {
-    const {data: events, isError} = api.event.getByDate.useQuery({date: new Date(`2024-03-${day}`)})
-    const {mutate:createEvent, isPending} = api.event.create.useMutation()
+    const utils = api.useUtils()
+    const {data: events, isError, isFetching} = api.event.getByDate.useQuery({date: new Date(`2024-03-${day}`)})
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -44,10 +44,15 @@ export const CalendarDay = ({day}: { day: number }) => {
             date: new Date(`2024-03-${day}`)
         },
     })
+    const {mutate:createEvent} = api.event.create.useMutation({
+        onSuccess: async () => {
+            form.reset()
+            await utils.event.getByDate.refetch({date: new Date(`2024-03-${day}`)})
+        }
+    })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         createEvent(values)
-        form.reset()
     }
 
     return <Dialog>
@@ -60,18 +65,18 @@ export const CalendarDay = ({day}: { day: number }) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <Form {...form}>
                     <DialogHeader>
-                        <DialogTitle>Add event</DialogTitle>
+                        <DialogTitle>Events:</DialogTitle>
                     </DialogHeader>
-                    <div className="font-bold">Events:</div>
                     <div>
-                        {isPending && <div>Loading...</div>}
                         {isError ? <div>Error</div>
                         :<div>
                             {events?.map((event) => (
-                                <div key={event.id}>{event.name}</div>
+                                <div key={event.id} className="text-wrap">{event.name}</div>
                             ))}
                         </div>
                         }
+                        { isFetching && <Skeleton className="w-[100px] h-[20px] rounded-full" />}
+
                     </div>
                     <FormField
                         control={form.control}
@@ -92,7 +97,7 @@ export const CalendarDay = ({day}: { day: number }) => {
                                 Close
                             </Button>
                         </DialogClose>
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">Add event</Button>
                     </DialogFooter>
                 </Form>
 
