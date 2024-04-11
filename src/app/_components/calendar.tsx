@@ -85,9 +85,12 @@ export const Calendar = () => {
           {[...Array(startDay).keys()].map((_, index) => (
             <div key={index}></div>
           ))}
-          {[...Array(daysInMonth).keys()].map((day) => (
-            <CalendarDay key={day} day={day + 1} />
-          ))}
+          {[...Array(daysInMonth).keys()].map((day) => {
+            const thisDay = new Date(currentYear, currentMonth, day + 1);
+            const disabled = thisDay < currentDate;
+
+            return <CalendarDay key={day} day={day + 1} disabled={disabled} />;
+          })}
         </div>
       </div>
     </div>
