@@ -89,7 +89,7 @@ export const Calendar = () => {
             const thisDay = new Date(currentYear, currentMonth, day + 1);
             const disabled = thisDay < currentDate;
 
-            return <CalendarDay key={day} day={day + 1} disabled={disabled} />;
+            return <CalendarDay key={day} date={thisDay} disabled={disabled} />;
           })}
         </div>
       </div>

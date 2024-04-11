@@ -26,46 +26,56 @@ import {
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
 import { api } from "@/trpc/react";
-import { Skeleton } from "./ui/skeleton";
 
-import { Event } from "./event";
+import { Passanger } from "./passanger";
 import { useState } from "react";
+import { ScrollArea } from "./ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./ui/table";
 
 const formSchema = z.object({
   name: z.string().min(1),
+  surname: z.string().min(1),
   date: z.date(),
 });
 
 export const CalendarDay = ({
-  day,
+  date,
   disabled,
 }: {
-  day: number;
+  date: Date;
   disabled?: boolean;
 }) => {
   const utils = api.useUtils();
-  const [isCreatingEvent, setIsCreatingEvent] = useState(false);
-  const { data: events, isError } = api.event.getByDate.useQuery({
-    date: new Date(`2024-03-${day}`),
+  const [isCreatingPassanger, setIsCreatingPassanger] = useState(false);
+  const { data: passangers } = api.passanger.getByDate.useQuery({
+    date: date,
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      date: new Date(`2024-03-${day}`),
+      surname: "",
+      date: date,
     },
   });
-  const { mutate: createEvent } = api.event.create.useMutation({
+  const { mutate: createPassanger } = api.passanger.create.useMutation({
     onSuccess: async () => {
       form.reset();
-      await utils.event.getByDate.refetch({ date: new Date(`2024-03-${day}`) });
-      setIsCreatingEvent(false);
+      await utils.passanger.getByDate.refetch({ date: date });
+      setIsCreatingPassanger(false);
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsCreatingEvent(true);
-    createEvent(values);
+    setIsCreatingPassanger(true);
+    createPassanger(values);
   }
 
   return (
@@ -74,29 +84,39 @@ export const CalendarDay = ({
         disabled={disabled}
         className="rounded bg-muted py-2 text-center duration-150 hover:bg-muted/60 disabled:cursor-not-allowed disabled:bg-muted/50"
       >
-        {day}
+        {date.getDate()}
       </DialogTrigger>
       <DialogContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <Form {...form}>
             <DialogHeader>
-              <DialogTitle>Events:</DialogTitle>
+              <DialogTitle>
+                <span className=" text-muted-foreground">Fly </span>
+                {date.toDateString()}
+              </DialogTitle>
             </DialogHeader>
             <div>
-              {!events?.length && (
-                <div className="text-center">There are no events yet.</div>
-              )}
-              {isError ? (
-                <div>Error</div>
+              {passangers?.length ? (
+                <>
+                  <h2 className="mb-2">Passengers</h2>
+                  <ScrollArea className="h-64 rounded p-2 ring ring-muted">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Surname</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {passangers?.map((passanger) => (
+                          <Passanger key={passanger.id} passanger={passanger} />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </ScrollArea>
+                </>
               ) : (
-                <div className=" divide-y">
-                  {events?.map((event) => (
-                    <Event key={event.id} event={event} />
-                  ))}
-                </div>
-              )}
-              {isCreatingEvent && (
-                <Skeleton className="h-[20px] w-[100px] rounded-full" />
+                <div className="text-center">There are no passangers yet.</div>
               )}
             </div>
             <FormField
@@ -104,9 +124,22 @@ export const CalendarDay = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Event name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter event name" {...field} />
+                    <Input placeholder="Enter name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="surname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Surname</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter surname" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,7 +151,7 @@ export const CalendarDay = ({
                   Close
                 </Button>
               </DialogClose>
-              <Button type="submit">Add event</Button>
+              <Button type="submit">Buy</Button>
             </DialogFooter>
           </Form>
         </form>

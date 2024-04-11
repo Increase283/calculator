@@ -13,9 +13,10 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Event {
+model Passanger {
   id        String   @id @default(cuid())
   name      String
+  surname   String
   date      DateTime
   userId    String
   createdAt DateTime @default(now())
