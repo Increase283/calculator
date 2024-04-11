@@ -28,16 +28,8 @@ import { Input } from "@/app/_components/ui/input";
 import { api } from "@/trpc/react";
 
 import { Passanger } from "./passanger";
-import { useState } from "react";
 import { ScrollArea } from "./ui/scroll-area";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./ui/table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "./ui/table";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -53,7 +45,6 @@ export const CalendarDay = ({
   disabled?: boolean;
 }) => {
   const utils = api.useUtils();
-  const [isCreatingPassanger, setIsCreatingPassanger] = useState(false);
   const { data: passangers } = api.passanger.getByDate.useQuery({
     date: date,
   });
@@ -69,12 +60,10 @@ export const CalendarDay = ({
     onSuccess: async () => {
       form.reset();
       await utils.passanger.getByDate.refetch({ date: date });
-      setIsCreatingPassanger(false);
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsCreatingPassanger(true);
     createPassanger(values);
   }
 
