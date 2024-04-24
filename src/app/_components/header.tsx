@@ -3,7 +3,7 @@ import { ModeToggle } from "./mode-toggle";
 
 export const Header = () => {
   return (
-    <header className="container flex justify-end gap-x-4 py-2">
+    <header className="border-bottom container sticky flex justify-end gap-x-4 bg-background/20 py-2 backdrop-blur-sm">
       <ModeToggle />
       <UserButton />
     </header>
