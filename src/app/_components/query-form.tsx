@@ -65,7 +65,6 @@ export function QueryForm() {
           src={diffurMutation.data?.pods[0]?.subpods[0]?.img.src}
           alt="Ничего нет"
         />
-        {/* <pre>{JSON.stringify(diffurMutation.data)}</pre> */}
       </div>
     </>
   );
