@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
+import { api } from "@/trpc/react";
 
 const formSchema = z.object({
   diffur: z.string().min(2, {
@@ -23,7 +24,7 @@ const formSchema = z.object({
 });
 
 export function QueryForm() {
-  // 1. Define your form.
+  const diffurMutation = api.diffur.getAnswer.useMutation();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,32 +32,34 @@ export function QueryForm() {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    diffurMutation.mutate({ query: values.diffur });
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="diffur"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>диффур</FormLabel>
-              <FormControl>
-                <Input placeholder="Integrate[2x,x]" {...field} />
-              </FormControl>
-              <FormDescription>Сюда вводите ваш диффур</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Отправить</Button>
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="diffur"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>диффур</FormLabel>
+                <FormControl>
+                  <Input placeholder="Integrate[2x,x]" {...field} />
+                </FormControl>
+                <FormDescription>Сюда вводите ваш диффур</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Отправить</Button>
+        </form>
+      </Form>
+      <div>
+        <pre>{diffurMutation.data}</pre>
+      </div>
+    </>
   );
 }
