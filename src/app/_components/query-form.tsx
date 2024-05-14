@@ -24,7 +24,7 @@ const formSchema = z.object({
 });
 
 export function QueryForm() {
-  const diffurMutation = api.diffur.getAnswer.useMutation();
+  const diffurMutation = api.diffur.getAnswer.useMutation({});
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,8 +32,10 @@ export function QueryForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    diffurMutation.mutate({ query: values.diffur });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    await diffurMutation.mutateAsync({ query: values.diffur });
+    console.log(diffurMutation.data);
   }
 
   return (
@@ -58,7 +60,12 @@ export function QueryForm() {
         </form>
       </Form>
       <div>
-        <pre>{diffurMutation.data}</pre>
+        {diffurMutation.data?.inputstring}
+        <img
+          src={diffurMutation.data?.pods[0]?.subpods[0]?.img.src}
+          alt="Ничего нет"
+        />
+        {/* <pre>{JSON.stringify(diffurMutation.data)}</pre> */}
       </div>
     </>
   );
