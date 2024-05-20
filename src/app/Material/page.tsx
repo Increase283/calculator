@@ -1,3 +1,3 @@
 export default function MaterialPage() {
-  return "111";
+  return "Здесь будут находится полезные материалы для изучения дифференциальных уравнений";
 }

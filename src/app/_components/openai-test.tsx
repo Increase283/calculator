@@ -22,7 +22,7 @@ const formSchema = z.object({
   }),
 });
 
-export function QueryForm() {
+export const OpenaiTest = () => {
   const answerMutation = api.openai.getAnswer.useMutation({});
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,7 +50,9 @@ export function QueryForm() {
                 <FormControl>
                   <Input placeholder="Integrate[2x,x]" {...field} />
                 </FormControl>
-                <FormDescription>Поле ввода уравнения</FormDescription>
+                <FormDescription>
+                  Поле ввода дифференциального уравнения
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -59,8 +61,6 @@ export function QueryForm() {
         </form>
       </Form>
       {answerMutation.data}
-      {/* {diffurMutation.data && <Output data={diffurMutation.data} />}{" "} */}
-      {/* Используем новый компонент */}
     </>
   );
-}
+};

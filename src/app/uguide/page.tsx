@@ -1,3 +1,3 @@
 export default function uguidePage() {
-  return "111";
+  return "Здесь будет находится описание работы сервиса";
 }
