@@ -19,6 +19,6 @@ export const OpenaiRouter = createTRPCRouter({
         ],
         model: "gpt-3.5-turbo",
       });
-      return chatCompletion.choices[0]?.message.content;
+      return chatCompletion.choices[0]?.message;
     }),
 });

@@ -15,6 +15,7 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Solution } from "./solution";
 
 const formSchema = z.object({
   answer: z.string().min(2, {
@@ -31,10 +32,8 @@ export const OpenaiTest = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    await answerMutation.mutateAsync({ query: values.answer });
-    console.log(answerMutation.data);
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    answerMutation.mutate({ query: values.answer });
   }
 
   return (
@@ -60,7 +59,8 @@ export const OpenaiTest = () => {
           <Button type="submit">Отправить</Button>
         </form>
       </Form>
-      {answerMutation.data}
+      {answerMutation.data && <Solution answer={answerMutation.data.content} />}
+      {/* {answerMutation.data} */}
     </>
   );
 };
