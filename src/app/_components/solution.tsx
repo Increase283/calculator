@@ -1,14 +1,12 @@
 "use client";
-// import { type Message } from "ai";
 import { MemoizedReactMarkdown } from "./markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 
-export const Solution = ({ answer }: { answer: string | null }) => {
-  // const difurMutation = api.diffur.getAnswer.useMutation();
+export const Solution = ({ answer }: { answer: string | null | undefined }) => {
   return (
     <div>
-      <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
+      <div className="flex-1 space-y-2 overflow-hidden rounded-lg bg-muted p-6">
         <MemoizedReactMarkdown
           className="prose dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 break-words"
           remarkPlugins={[remarkGfm, remarkMath]}

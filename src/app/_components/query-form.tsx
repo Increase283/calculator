@@ -11,46 +11,52 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
-import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  answer: z.string().min(2, {
+  query: z.string().min(2, {
     message: "Ошибка ввода",
   }),
 });
 
-export function QueryForm() {
-  const answerMutation = api.openai.getAnswer.useMutation({});
+export const QueryForm = ({
+  getAnswer,
+}: {
+  getAnswer: ({ query }: { query: string }) => void;
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      answer: "",
+      query: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    await answerMutation.mutateAsync({ query: values.answer });
-    console.log(answerMutation.data);
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    getAnswer({ query: values.query });
+    // answerMutation.mutate({ query: values.answer });
   }
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col space-y-8"
+        >
           <FormField
             control={form.control}
-            name="answer"
+            name="query"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Дифференциальное уравнение</FormLabel>
                 <FormControl>
                   <Input placeholder="Integrate[2x,x]" {...field} />
                 </FormControl>
-                <FormDescription>Поле ввода уравнения</FormDescription>
+                <FormDescription>
+                  Поле ввода дифференциального уравнения
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -58,9 +64,7 @@ export function QueryForm() {
           <Button type="submit">Отправить</Button>
         </form>
       </Form>
-      {answerMutation.data}
-      {/* {diffurMutation.data && <Output data={diffurMutation.data} />}{" "} */}
-      {/* Используем новый компонент */}
+      {/* {answerMutation.data} */}
     </>
   );
-}
+};

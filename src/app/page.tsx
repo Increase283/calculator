@@ -1,10 +1,9 @@
-import { OpenaiTest } from "./_components/openai-test";
+import { Difur } from "./_components/difur";
 
 export default async function Home() {
   return (
     <main className="relative flex flex-col items-center">
-      {/* <Difur /> */}
-      <OpenaiTest />
+      <Difur />
     </main>
   );
 }
