@@ -27,10 +27,14 @@ export const ArticleList = ({ articles }: { articles: Article[] }) => {
         {activeArticle ? (
           <div>
             <h1 className="mb-2 text-xl font-bold">{activeArticle.title}</h1>
-            <p>{activeArticle.content}</p>
+            {activeArticle.content ? (
+              <p>{activeArticle.content}</p>
+            ) : (
+              <p>У этой статьи пока нет текста</p>
+            )}
           </div>
         ) : (
-          <p>Select an article to read</p>
+          <p>Выберите статью чтобы прочесть</p>
         )}
       </div>
     </div>
