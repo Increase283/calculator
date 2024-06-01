@@ -93,7 +93,7 @@ export const QueryForm = ({
               </Button>
             ))}
           </div>
-          <div className=" w-full max-w-sm self-center">
+          <div className=" w-full max-w-xs self-center">
             <Button
               type="submit"
               className="w-full space-x-2"
