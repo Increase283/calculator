@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { BoltIcon } from "@heroicons/react/24/solid";
 import { Spinner } from "./ui/spinner";
+import { ScrollArea } from "./ui/scroll-area";
 
 type DiffurOperator = {
   value: string;
@@ -55,7 +56,6 @@ export const QueryForm = ({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     getAnswer({ query: values.query });
-    // answerMutation.mutate({ query: values.answer });
   }
 
   return (
@@ -63,7 +63,7 @@ export const QueryForm = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col space-y-8"
+          className="flex flex-col space-y-4"
         >
           <FormField
             control={form.control}
@@ -81,18 +81,20 @@ export const QueryForm = ({
               </FormItem>
             )}
           />
-          <div className="flex justify-center space-x-2">
-            {diffurOperators.map((diffurOperator) => (
-              <Button
-                key={diffurOperator.title}
-                type="button"
-                variant={"secondary"}
-                onClick={() => addOperator(diffurOperator.value)}
-              >
-                {diffurOperator.title}
-              </Button>
-            ))}
-          </div>
+          <ScrollArea className="h-[100px]">
+            <div className="grid grid-flow-row-dense grid-cols-3 gap-2">
+              {diffurOperators.map((diffurOperator) => (
+                <Button
+                  key={diffurOperator.title}
+                  type="button"
+                  variant={"secondary"}
+                  onClick={() => addOperator(diffurOperator.value)}
+                >
+                  {diffurOperator.title}
+                </Button>
+              ))}
+            </div>
+          </ScrollArea>
           <div className=" w-full max-w-xs self-center">
             <Button
               type="submit"
