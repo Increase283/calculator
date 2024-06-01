@@ -15,6 +15,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+type DiffurOperator = {
+  value: string;
+  title: string;
+};
+
+const diffurOperators: DiffurOperator[] = [
+  { value: "integrate[x,x] = 0", title: "Неопределённый интеграл" },
+  { value: "Integrate[2x,{x,1,2}] = 0", title: "Определённый интеграл" },
+  { value: "Limit[x,x->0] = 0", title: "Предел" },
+  { value: "D[y,x] = 0", title: "Производная" },
+];
+
 const formSchema = z.object({
   query: z.string().min(2, {
     message: "Ошибка ввода",
@@ -32,6 +44,10 @@ export const QueryForm = ({
       query: "",
     },
   });
+
+  const addOperator = (value: string) => {
+    form.setValue("query", form.getValues().query + value);
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     getAnswer({ query: values.query });
@@ -61,6 +77,17 @@ export const QueryForm = ({
               </FormItem>
             )}
           />
+          <div className="flex justify-center">
+            {diffurOperators.map((diffurOperator) => (
+              <Button
+                type="button"
+                variant={"secondary"}
+                onClick={() => addOperator(diffurOperator.value)}
+              >
+                {diffurOperator.title}
+              </Button>
+            ))}
+          </div>
           <Button type="submit">Отправить</Button>
         </form>
       </Form>

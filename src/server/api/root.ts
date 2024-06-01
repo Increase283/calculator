@@ -1,4 +1,5 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
+import { ArticleRouter } from "./routes/article";
 import { DiffureRoute } from "./routes/diffur";
 import { OpenaiRouter } from "./routes/openai";
 
@@ -10,6 +11,7 @@ import { OpenaiRouter } from "./routes/openai";
 export const appRouter = createTRPCRouter({
   diffur: DiffureRoute,
   openai: OpenaiRouter,
+  article: ArticleRouter,
 });
 
 // export type definition of API

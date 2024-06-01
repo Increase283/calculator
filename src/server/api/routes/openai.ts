@@ -14,7 +14,7 @@ export const OpenaiRouter = createTRPCRouter({
         messages: [
           {
             role: "user",
-            content: `Выведи пошаговое решение для этой задачи: ${input.query}`,
+            content: `Выведи пошаговое решение для этой задачи, добавляя нумерацию ${input.query}`,
           },
         ],
         model: "gpt-3.5-turbo",
