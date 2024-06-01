@@ -8,7 +8,10 @@ export const Difur = () => {
   const answerMutation = api.openai.getAnswer.useMutation({});
   return (
     <div className="flex flex-col items-center space-x-2">
-      <QueryForm getAnswer={answerMutation.mutate} />
+      <QueryForm
+        getAnswer={answerMutation.mutate}
+        isPending={answerMutation.isPending}
+      />
       {answerMutation.isPending && (
         <div className="mt-10 w-full max-w-2xl">
           <h2 className="mb-2 text-xl font-bold">Решение:</h2>

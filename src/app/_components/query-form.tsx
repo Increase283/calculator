@@ -14,6 +14,8 @@ import { Input } from "@/app/_components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { BoltIcon } from "@heroicons/react/24/solid";
+import { Spinner } from "./ui/spinner";
 
 type DiffurOperator = {
   value: string;
@@ -35,8 +37,10 @@ const formSchema = z.object({
 
 export const QueryForm = ({
   getAnswer,
+  isPending,
 }: {
   getAnswer: ({ query }: { query: string }) => void;
+  isPending: boolean;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -77,9 +81,10 @@ export const QueryForm = ({
               </FormItem>
             )}
           />
-          <div className="flex justify-center">
+          <div className="flex justify-center space-x-2">
             {diffurOperators.map((diffurOperator) => (
               <Button
+                key={diffurOperator.title}
                 type="button"
                 variant={"secondary"}
                 onClick={() => addOperator(diffurOperator.value)}
@@ -88,10 +93,28 @@ export const QueryForm = ({
               </Button>
             ))}
           </div>
-          <Button type="submit">Отправить</Button>
+          <div className=" w-full max-w-sm self-center">
+            <Button
+              type="submit"
+              className="w-full space-x-2"
+              size={"lg"}
+              disabled={isPending}
+            >
+              {isPending ? (
+                <>
+                  <Spinner />
+                  <span>Решается...</span>
+                </>
+              ) : (
+                <>
+                  <BoltIcon className="h-4 w-4" />
+                  <span>Решить</span>
+                </>
+              )}
+            </Button>
+          </div>
         </form>
       </Form>
-      {/* {answerMutation.data} */}
     </>
   );
 };
