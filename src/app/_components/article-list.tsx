@@ -1,4 +1,6 @@
 "use client";
+import "katex/dist/katex.min.css";
+import Latex from "react-latex-next";
 import { type Article } from "@prisma/client";
 import { useState } from "react";
 
@@ -28,7 +30,7 @@ export const ArticleList = ({ articles }: { articles: Article[] }) => {
           <div>
             <h1 className="mb-2 text-xl font-bold">{activeArticle.title}</h1>
             {activeArticle.content ? (
-              <p>{activeArticle.content}</p>
+              <Latex>{activeArticle.content}</Latex>
             ) : (
               <p>У этой статьи пока нет текста</p>
             )}
