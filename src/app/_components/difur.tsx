@@ -22,9 +22,6 @@ export const Difur = () => {
         <div className="mt-10 w-full max-w-2xl">
           <h2 className="mb-2 text-xl font-bold">Решение:</h2>
           <Solution answer={answerMutation.data.content} />
-          <Solution answer={answerMutation.data.content} />
-          <Solution answer={answerMutation.data.content} />
-          <Solution answer={answerMutation.data.content} />
         </div>
       )}
     </div>

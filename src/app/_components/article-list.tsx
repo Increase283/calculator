@@ -3,7 +3,6 @@ import "katex/dist/katex.min.css";
 import Latex from "react-latex-next";
 import { type Article } from "@prisma/client";
 import { useState } from "react";
-import { ScrollArea } from "./ui/scroll-area";
 
 export const ArticleList = ({ articles }: { articles: Article[] }) => {
   const [activeArticle, setActiveArticle] = useState<null | Article>(null);
