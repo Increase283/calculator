@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="border-bottom container sticky flex justify-between bg-background/20 py-2 backdrop-blur-sm">
+    <header className="border-bottom container sticky top-0 z-10 flex justify-between border-b bg-background/20 py-2 backdrop-blur-sm">
       <a href="/">
         <Image src="/Logo.png" width={60} height={60} alt="logo" />
       </a>
