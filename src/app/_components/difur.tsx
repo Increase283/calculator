@@ -15,11 +15,11 @@ export const Difur = () => {
       {answerMutation.isPending && (
         <div className="mt-10 w-full max-w-2xl">
           <h2 className="mb-2 text-xl font-bold">Решение:</h2>
-          <Skeleton className="h-[300px] w-[600px] rounded-lg" />
+          <Skeleton className="h-[300px] w-full rounded-lg" />
         </div>
       )}
       {answerMutation.data && (
-        <div className="mt-10 w-[600px]">
+        <div className="mt-10 w-full max-w-2xl">
           <h2 className="mb-2 text-xl font-bold">Решение:</h2>
           <Solution answer={answerMutation.data.content} />
         </div>

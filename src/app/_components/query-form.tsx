@@ -82,7 +82,7 @@ export const QueryForm = ({
             )}
           />
           <ScrollArea className="h-[100px]">
-            <div className="grid grid-flow-row-dense grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
               {diffurOperators.map((diffurOperator) => (
                 <Button
                   key={diffurOperator.title}
