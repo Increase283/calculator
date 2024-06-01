@@ -11,13 +11,19 @@ export const Header = () => {
       </a>
       <div className="flex items-center space-x-10">
         <div>
-          <Link href="/">Калькулятор</Link>
+          <Link href="/" className="duration-150 hover:text-primary/50">
+            Калькулятор
+          </Link>
         </div>
         <div>
-          <Link href="/material">Полезные материалы</Link>
+          <Link href="/material" className="duration-150 hover:text-primary/50">
+            Полезные материалы
+          </Link>
         </div>
         <div>
-          <Link href="/uguide">Руководство пользователя</Link>
+          <Link href="/uguide" className="duration-150 hover:text-primary/50">
+            Руководство пользователя
+          </Link>
         </div>
       </div>
       <div className="flex items-center gap-x-4">
