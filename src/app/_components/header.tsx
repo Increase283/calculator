@@ -1,7 +1,7 @@
 import { UserButton } from "@clerk/nextjs";
+import Image from "next/image";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
-import Image from "next/image";
 
 export const Header = () => {
   return (
@@ -21,7 +21,7 @@ export const Header = () => {
           </Link>
         </div>
         <div>
-          <Link href="/uguide" className="duration-150 hover:text-primary/50">
+          <Link href="/guide" className="duration-150 hover:text-primary/50">
             Руководство пользователя
           </Link>
         </div>
