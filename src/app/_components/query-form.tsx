@@ -11,12 +11,12 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
+import { BoltIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { BoltIcon } from "@heroicons/react/24/solid";
-import { Spinner } from "./ui/spinner";
 import { ScrollArea } from "./ui/scroll-area";
+import { Spinner } from "./ui/spinner";
 
 type DiffurOperator = {
   value: string;

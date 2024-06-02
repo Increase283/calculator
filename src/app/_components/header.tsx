@@ -25,6 +25,11 @@ export const Header = () => {
             Руководство пользователя
           </Link>
         </div>
+        <div>
+          <Link href="/request" className="duration-150 hover:text-primary/50">
+            История запросов
+          </Link>
+        </div>
       </div>
       <div className="flex items-center gap-x-4">
         <ModeToggle />

@@ -3,6 +3,7 @@ import { ArticleRouter } from "./routes/article";
 import { DiffureRoute } from "./routes/diffur";
 import { GuideRouter } from "./routes/guide";
 import { OpenaiRouter } from "./routes/openai";
+import { RequestRouter } from "./routes/requst";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   openai: OpenaiRouter,
   article: ArticleRouter,
   guide: GuideRouter,
+  request: RequestRouter,
 });
 
 // export type definition of API

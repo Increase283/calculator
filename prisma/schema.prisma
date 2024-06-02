@@ -39,7 +39,7 @@ model Guide {
   updatedAt DateTime @updatedAt
 }
 
-model Requests {
+model Request {
   id        String   @id @default(cuid())
   input     String
   solution  String   @db.Text

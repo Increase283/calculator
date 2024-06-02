@@ -9,7 +9,7 @@ const openai = new OpenAI({
 export const OpenaiRouter = createTRPCRouter({
   getAnswer: publicProcedure
     .input(z.object({ query: z.string() }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const chatCompletion = await openai.chat.completions.create({
         messages: [
           {
@@ -19,6 +19,11 @@ export const OpenaiRouter = createTRPCRouter({
         ],
         model: "gpt-3.5-turbo",
       });
-      return chatCompletion.choices[0]?.message;
+      const res = chatCompletion.choices[0]?.message;
+      await ctx.db.request.create({
+        data: { solution: res?.content ?? "", input: input.query },
+      });
+
+      return res;
     }),
 });
