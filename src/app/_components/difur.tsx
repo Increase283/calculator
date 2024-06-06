@@ -10,11 +10,12 @@ import Image from "next/image";
 import { QueryForm } from "./query-form";
 import { Solution } from "./solution";
 import { Skeleton } from "./ui/skeleton";
-
+  
 export const Difur = () => {
   const answerMutation = api.openai.getAnswer.useMutation();
   const graphMutation = api.diffur.getAnswer.useMutation();
-  //@ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   const grapthUrl = graphMutation.data?.pods[1]?.subpods[0].img.src ?? "";
   return (
     <div className="flex flex-col items-center space-x-2">
