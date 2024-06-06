@@ -24,10 +24,10 @@ type DiffurOperator = {
 };
 
 const diffurOperators: DiffurOperator[] = [
-  { value: "integrate[x,x] = 0", title: "Неопределённый интеграл" },
-  { value: "Integrate[2x,{x,1,2}] = 0", title: "Определённый интеграл" },
-  { value: "Limit[x,x->0] = 0", title: "Предел" },
-  { value: "D[y,x] = 0", title: "Производная" },
+  { value: "integrate[x,x]", title: "Неопределённый интеграл" },
+  { value: "Integrate[2x,{x,1,2}]", title: "Определённый интеграл" },
+  { value: "Limit[x,x->0]", title: "Предел" },
+  { value: "D[y,x]", title: "Производная" },
 ];
 
 const formSchema = z.object({
@@ -38,9 +38,11 @@ const formSchema = z.object({
 
 export const QueryForm = ({
   getAnswer,
+  getGraph,
   isPending,
 }: {
   getAnswer: ({ query }: { query: string }) => void;
+  getGraph: ({ query }: { query: string }) => void;
   isPending: boolean;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -56,6 +58,7 @@ export const QueryForm = ({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     getAnswer({ query: values.query });
+    getGraph({ query: values.query });
   }
 
   return (

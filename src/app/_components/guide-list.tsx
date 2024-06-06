@@ -33,7 +33,7 @@ export const GuideList = ({ guides }: { guides: Guide[] }) => {
             )}
           </div>
         ) : (
-          <p>Выберите статью чтобы прочесть</p>
+          <p>Выберите пункт чтобы прочесть</p>
         )}
       </div>
     </div>

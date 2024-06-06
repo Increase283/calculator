@@ -1,4 +1,5 @@
 "use client";
+import { formatDate } from "@/utils/formatDate";
 import { type Request } from "@prisma/client";
 import "katex/dist/katex.min.css";
 import { useState } from "react";
@@ -26,14 +27,20 @@ export const RequestList = ({ requests }: { requests: Request[] }) => {
         {activeRequest ? (
           <div>
             <h1 className="mb-2 text-xl font-bold">{activeRequest.input}</h1>
+
             {activeRequest.solution ? (
-              <Latex>{activeRequest.solution}</Latex>
+              <>
+                <p className="mb-4 text-sm text-muted-foreground">
+                  {formatDate(activeRequest.createdAt)}
+                </p>
+                <Latex>{activeRequest.solution}</Latex>
+              </>
             ) : (
               <p>У этой статьи пока нет текста</p>
             )}
           </div>
         ) : (
-          <p>Выберите статью чтобы прочесть</p>
+          <p>Выберите запрос</p>
         )}
       </div>
     </div>

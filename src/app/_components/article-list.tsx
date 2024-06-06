@@ -1,8 +1,8 @@
 "use client";
-import "katex/dist/katex.min.css";
-import Latex from "react-latex-next";
 import { type Article } from "@prisma/client";
+import "katex/dist/katex.min.css";
 import { useState } from "react";
+import Latex from "react-latex-next";
 
 export const ArticleList = ({ articles }: { articles: Article[] }) => {
   const [activeArticle, setActiveArticle] = useState<null | Article>(null);
